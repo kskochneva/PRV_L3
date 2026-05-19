@@ -6,7 +6,7 @@
 #include <limits>
 #include <chrono>
 
-// ==================== Session Implementation ====================
+// 
 
 Session::Session(tcp::socket socket, asio::io_context& io_context)
     : socket_(std::move(socket)),
@@ -50,9 +50,9 @@ void Session::do_read() {
         });
 }
 
-// ========== ОСНОВНАЯ ЛОГИКА ОБРАБОТКИ ЗАПРОСОВ (ВСЕ ЗАДАЧИ) ==========
+
 void Session::process_request(const std::string& request) {
-    // ========== ЗАДАЧА 3: АСИНХРОННЫЙ ТАЙМЕР ==========
+    //  ЗАДАЧА 3: АСИНХРОННЫЙ ТАЙМЕР 
     // Проверяем, начинается ли запрос с "timer "
     if (request.rfind("timer ", 0) == 0) {
         try {
@@ -72,7 +72,7 @@ void Session::process_request(const std::string& request) {
         }
     }
     
-    // ========== ЗАДАЧА 2: АСИНХРОННОЕ ВЫЧИСЛЕНИЕ МАКСИМУМА ==========
+    //  ЗАДАЧА 2: АСИНХРОННОЕ ВЫЧИСЛЕНИЕ МАКСИМУМА 
     // Проверяем, состоит ли строка из цифр, пробелов и знаков минус
     bool is_number_list = true;
     for (char c : request) {
@@ -117,7 +117,7 @@ void Session::process_request(const std::string& request) {
         return;
     }
     
-    // ========== ЗАДАЧА 1: ЭХО С ДЛИНОЙ И ВЕРХНИМ РЕГИСТРОМ ==========
+    //  ЗАДАЧА 1: ЭХО С ДЛИНОЙ И ВЕРХНИМ РЕГИСТРОМ 
     log_message("Echo mode");
     
     // Преобразуем в верхний регистр
@@ -165,8 +165,7 @@ void Session::handle_timer(const std::string& response, int seconds) {
     });
 }
 
-// ==================== Server Implementation ====================
-
+//
 Server::Server(asio::io_context& io_context, unsigned short port)
     : io_context_(io_context),
       acceptor_(io_context, tcp::endpoint(tcp::v4(), port)),
