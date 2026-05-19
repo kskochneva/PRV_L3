@@ -7,7 +7,8 @@
 void run_server(asio::io_context& io_context, unsigned short port) {
     Server server(io_context, port);
     server.start();
-    io_context.run();  // блокируется здесь
+    io_context.run();  // блокируе текущий поток
+    //запускается бескоенчный цикл обработки событий 
 }
 
 int main() {
@@ -34,14 +35,14 @@ int main() {
         return 1;
     }
     
-    // ========== Демонстрация работы ==========
+  
     
-    // Задача 1: Обычное сообщение → "<длина>: <ВЕРХНИЙ РЕГИСТР>"
+    // Задача 1
     std::cout << "\n--- Task 1: Echo with length and uppercase ---" << std::endl;
     std::string response1 = client.send_request("Hello world");
     std::cout << "[CLIENT] Response: \"" << response1 << "\"" << std::endl;
     
-    // Задача 2: Асинхронное вычисление максимума
+    // Задача 2: Асинхронное  максимум
     std::cout << "\n--- Task 2: Async max calculation ---" << std::endl;
     std::string response2 = client.send_request("1 88 5 13 42 7");
     std::cout << "[CLIENT] Response: \"" << response2 << "\"" << std::endl;
@@ -55,7 +56,7 @@ int main() {
     std::cout << "[CLIENT] Waiting for timer message (5 seconds)..." << std::endl;
     
     // Чтобы получить асинхронное сообщение от таймера, нужно продолжать читать
-    // В этом демо мы просто ждём и читаем с таймаутом
+   
     try {
         asio::streambuf timer_buf;
         asio::read_until(client.socket_, timer_buf, '\n');
@@ -67,7 +68,7 @@ int main() {
         std::cout << "[CLIENT] Timer read: " << e.what() << std::endl;
     }
     
-    // Дополнительная демонстрация: несколько чисел
+    //  несколько чисел
     std::cout << "\n--- Additional test: max of negative numbers ---" << std::endl;
     std::string response4 = client.send_request("-10 -5 -30 -2");
     std::cout << "[CLIENT] Response: \"" << response4 << "\"" << std::endl;
